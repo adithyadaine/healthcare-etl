@@ -1,5 +1,5 @@
-streamlit
-pandas
-SQLAlchemy
-psycopg2-binary
-plotly
+streamlit       # The framework for building the web app.
+pandas          # Still needed for data handling.
+SQLAlchemy      # To connect to the database.
+psycopg2-binary # The PostgreSQL adapter.
+plotly          # For creating interactive charts and maps.
