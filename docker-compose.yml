@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  # The PostgreSQL Database Service (no changes)
+  postgres_db:
+    image: postgres:13
+    container_name: hospital_postgres
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: hospital_data
+    volumes:
+      - postgres_volume:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  # The Python ETL Application Service (no changes)
+  etl_service:
+    build: ./etl_app
+    container_name: hospital_etl
+    depends_on:
+      - postgres_db
+    environment:
+      DB_USER: user
+      DB_PASSWORD: password
+      DB_HOST: postgres_db
+      DB_NAME: hospital_data
+    volumes:
+      - ./data:/app/data
+
+  # The NEW Streamlit Dashboard Service
+  dashboard_service:
+    build: ./dashboard_app
+    container_name: hospital_dashboard
+    depends_on:
+      - postgres_db # It needs the database to be running
+    ports:
+      - "8501:8501" # Expose Streamlit's default port
+    environment:
+      DB_USER: user
+      DB_PASSWORD: password
+      DB_HOST: postgres_db
+      DB_NAME: hospital_data
+
+volumes:
+  postgres_volume:

@@ -1,0 +1,11 @@
+# Ignore Python bytecode and environment files
+.DS_Store
+*.pyc
+__pycache__/
+/venv
+/data
+/logs
+*.log
+*.csv
+/notebooks
+/reports
